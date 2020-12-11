@@ -14,7 +14,8 @@ public class Book {
     private Long id;
     private String title;
     private String isbn;
-    private String publisher;
+    @OneToOne
+    private Publisher publisher;
 
     @Override
     public boolean equals(Object o) {
@@ -31,16 +32,16 @@ public class Book {
         return id != null ? id.hashCode() : 0;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "author_book",
     joinColumns = @JoinColumn(name = "book_id"),
     inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Book> books = new HashSet<>();
+    private Set<Author> authors = new HashSet<>();
 
     public Book() {
     }
 
-    public Book(String title, String isbn, String publisher) {
+    public Book(String title, String isbn, Publisher publisher) {
 
         this.title = title;
         this.isbn = isbn;
@@ -72,20 +73,13 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public String getPublisher() {
+    public Publisher getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
+
+    public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
-    }
-
-    public Set<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(Set<Book> books) {
-        this.books = books;
     }
 
     @Override
@@ -95,7 +89,15 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", publisher='" + publisher + '\'' +
-                ", books=" + books +
+                ", authors=" + authors +
                 '}';
+    }
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 }

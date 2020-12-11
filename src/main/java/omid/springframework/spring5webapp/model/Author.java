@@ -14,10 +14,7 @@ public class Author {
     private Long id;
     private String firstName;
     private String lastName;
-    @ManyToMany
-    @JoinTable(name = "author_book",
-            joinColumns = @JoinColumn(name = "author_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @ManyToMany(mappedBy = "authors",cascade = CascadeType.ALL)
     private Set<Book> books = new HashSet<>();
 
     public Set<Book> getBooks() {
